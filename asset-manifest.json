@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-wallet/static/css/main.7acaea2f.css",
+    "main.js": "/react-wallet/static/js/main.a93f7f56.js",
+    "index.html": "/react-wallet/index.html",
+    "main.7acaea2f.css.map": "/react-wallet/static/css/main.7acaea2f.css.map",
+    "main.a93f7f56.js.map": "/react-wallet/static/js/main.a93f7f56.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7acaea2f.css",
+    "static/js/main.a93f7f56.js"
+  ]
+}
