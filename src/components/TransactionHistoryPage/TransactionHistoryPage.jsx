@@ -1,51 +1,52 @@
+import moment from 'moment';
 import Header from '../Header/Header';
 import sprite from '../../assets/sprite.svg';
 import s from './TransactionHistoryPage.module.css';
 import { useContext } from 'react';
 import { TransactionContext } from '../../context/TransactionsProvider';
+import { useParams } from 'react-router-dom';
 
-const TransactionHistoryPage = ({ transType, onReturnBtnClick }) => {
+const TransactionHistoryPage = () => {
   const transactionsContextValue = useContext(TransactionContext);
 
-  // const { [transType]: transactions } = transactionsContextValue;
+  const { transType } = useParams();
   const transactions = transactionsContextValue[transType];
-
   const transactionName = transType === 'costs' ? 'Costs' : 'Incomes';
-  const cbOnClick = () => {
-    onReturnBtnClick('main');
-  };
-  // const { date, time, category, summ, currency, comment, transType } = form;
+
   return (
     <div className="container">
       <Header
         title={`Transaction  ${transactionName}`}
         icon={'#icon-arrow-left'}
-        cbOnClick={cbOnClick}
       />
       <ul className={s.list}>
-        {transactions.map((el, idx) => (
-          <li key={idx} className={s.item}>
-            <div>
-              <p>
-                {el.date}
-                <span className={s.span}> {el.time} </span>
-              </p>
-              <p className={s.comment}>{el.comment} </p>
-            </div>
+        {transactions.map((el, idx) => {
+          const day = moment(el.date).format('dd, DD MMM. YYYY');
 
-            <div className={s.right}>
-              <div className={s.rightBlock}>
-                <p className={s.summ}>{el.summ} </p>
-                <p className={s.currency}>{el.currency} </p>
+          return (
+            <li key={idx} className={s.item}>
+              <div>
+                <p>
+                  {day}
+                  <span className={s.span}> {el.time} </span>
+                </p>
+                <p className={s.comment}>{el.comment} </p>
               </div>
-              <button type="button" className={s.btnInfo}>
-                <svg className={s.svg}>
-                  <use href={sprite + '#icon-navigation-more'} />
-                </svg>
-              </button>
-            </div>
-          </li>
-        ))}
+
+              <div className={s.right}>
+                <div className={s.rightBlock}>
+                  <p className={s.summ}>{el.summ} </p>
+                  <p className={s.currency}>{el.currency} </p>
+                </div>
+                <button type="button" className={s.btnInfo}>
+                  <svg className={s.svg}>
+                    <use href={sprite + '#icon-navigation-more'} />
+                  </svg>
+                </button>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
