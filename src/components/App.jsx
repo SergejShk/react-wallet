@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 const MainPage = lazy(() => import('./MainPage/MainPage'));
 const TransactionHistoryPage = lazy(() =>
@@ -15,7 +15,7 @@ export const App = () => {
           path="/history/:transType"
           element={<TransactionHistoryPage />}
         />
-        <Route path="*" element={<p>Error</p>} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Suspense>
   );

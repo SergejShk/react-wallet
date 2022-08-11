@@ -1,9 +1,9 @@
-import { useEffect, useState, useContext, lazy, Suspense } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import moment from 'moment';
 import { Link, Route, Routes, useNavigate, useMatch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Header from '../Header/Header';
 import s from './MainPage.module.css';
-import { CategoriesContext } from '../../context/CategoriesProvider';
 const CategoriesList = lazy(() => import('../CategoriesList/CategoriesList'));
 const TransactionForm = lazy(() =>
   import('../TransactionForm/TransactionForm')
@@ -26,14 +26,13 @@ const MainPage = () => {
   const { params } = useMatch('/*');
 
   const navigate = useNavigate();
+  const categories = useSelector(state => state.categories);
   const [form, setForm] = useState(initialForm);
 
-  const categoriesContextValue = useContext(CategoriesContext);
-
   useEffect(() => {
-    const title = categoriesContextValue[form.transType][0].title;
+    const title = categories[form.transType][0]?.title || 'Choise category';
     setForm(prev => ({ ...prev, category: title }));
-  }, [categoriesContextValue, form.transType]);
+  }, [categories, form.transType]);
 
   const handleChange = e => {
     const { name, value } = e.target;

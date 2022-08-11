@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import s from './TransactionForm.module.css';
-import { TransactionContext } from '../../context/TransactionsProvider';
+import { addIncomes, addCosts } from 'redux/transactions/transactionsActions';
+import { nanoid } from 'nanoid';
 
 function TransactionForm({
   form,
@@ -9,18 +10,20 @@ function TransactionForm({
 
   resetForm,
 }) {
-  const { addTransaction } = useContext(TransactionContext);
+  const dispatch = useDispatch();
 
   const { date, time, category, summ, currency, comment, transType } = form;
+
+  const submitForm = e => {
+    e.preventDefault();
+    const id = nanoid();
+    transType === 'costs' && dispatch(addCosts({ ...form, id }));
+    transType === 'incomes' && dispatch(addIncomes({ ...form, id }));
+
+    resetForm();
+  };
   return (
-    <form
-      className={s.form}
-      onSubmit={e => {
-        e.preventDefault();
-        addTransaction(form);
-        resetForm();
-      }}
-    >
+    <form className={s.form} onSubmit={submitForm}>
       <button type="submit">Відправити</button>
       <select name="transType" value={transType} onChange={handleChange}>
         <option value="costs">Витрати</option>
