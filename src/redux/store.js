@@ -1,6 +1,4 @@
-import transactionsReducer from './transactions/transactionsReducer';
 import { configureStore } from '@reduxjs/toolkit';
-import categoriesReducer from './categories/categoriesReducer';
 import {
   persistStore,
   persistReducer,
@@ -12,6 +10,8 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import transactionsReducer from './transactions/transactionsSlice';
+import categoriesReducer from './categories/categoriesReducer';
 
 const transactionsPersistConfig = {
   key: 'transactions',

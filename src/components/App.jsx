@@ -1,3 +1,4 @@
+import EditPage from 'pages/EditPage';
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -15,6 +16,7 @@ export const App = () => {
           path="/history/:transType"
           element={<TransactionHistoryPage />}
         />
+        <Route path="/edit/:transType/:id/*" element={<EditPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Suspense>

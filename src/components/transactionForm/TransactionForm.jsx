@@ -1,25 +1,18 @@
-import { useDispatch } from 'react-redux';
 import s from './TransactionForm.module.css';
-import { addIncomes, addCosts } from 'redux/transactions/transactionsActions';
-import { nanoid } from 'nanoid';
 
 function TransactionForm({
+  cbOnSubmit,
   form,
   handleOpenCategoriesList,
   handleChange,
 
   resetForm,
 }) {
-  const dispatch = useDispatch();
-
   const { date, time, category, summ, currency, comment, transType } = form;
 
   const submitForm = e => {
     e.preventDefault();
-    const id = nanoid();
-    transType === 'costs' && dispatch(addCosts({ ...form, id }));
-    transType === 'incomes' && dispatch(addIncomes({ ...form, id }));
-
+    cbOnSubmit(form);
     resetForm();
   };
   return (
