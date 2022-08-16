@@ -3,10 +3,7 @@ import { useState } from 'react';
 import s from './CategoriesList.module.css';
 import sprite from '../../assets/sprite.svg';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  addCostsCategory,
-  addIncomesCategory,
-} from 'redux/categories/categoriesAtions';
+import { addCostsCategory, addIncomesCategory } from 'redux/categories/categoriesOperations';
 
 const CategoriesList = ({ transType, setCategories }) => {
   const dispatch = useDispatch();
@@ -21,10 +18,8 @@ const CategoriesList = ({ transType, setCategories }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    transType === 'incomes' &&
-      dispatch(addIncomesCategory({ title: input, id: nanoid() }));
-    transType === 'costs' &&
-      dispatch(addCostsCategory({ title: input, id: nanoid() }));
+    transType === 'incomes' && dispatch(addIncomesCategory({ title: input }));
+    transType === 'costs' && dispatch(addCostsCategory({ title: input }));
   };
 
   return (
