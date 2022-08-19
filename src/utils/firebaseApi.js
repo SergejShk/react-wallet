@@ -2,6 +2,8 @@ import { getValue } from '@testing-library/user-event/dist/utils';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://wallet-3dac9-default-rtdb.firebaseio.com/';
+const API_KEY = 'AIzaSyCqNbfmkpBM8NzWcLwTrWxD4XL8LHK_TlM';
+const BASE_URL = 'https://identitytoolkit.googleapis.com/v1';
 
 const transformDataObj = categories =>
   categories
@@ -11,8 +13,12 @@ const transformDataObj = categories =>
       }))
     : [];
 
-export const getCategoriesApi = async () => {
-  const response = await axios.get('categories.json');
+// url "BASE_URL/users/{localId}/categories.json?auth={token}"
+
+export const getCategoriesApi = async ({ localId, token }) => {
+  const response = await axios.get(`users/${localId}/categories.json`, {
+    params: { auth: token },
+  });
   if (response.data === null) return { incomes: [], costs: [] };
 
   const incomes = transformDataObj(response.data.incomes);
@@ -25,19 +31,26 @@ export const getCategoriesApi = async () => {
   };
 };
 
-export const addCategoryApi = async (type, category) => {
-  const response = await axios.post(`categories/${type}.json`, category);
+export const addCategoryApi = async ({ type, category, localId, token }) => {
+  const response = await axios.post(
+    `users/${localId}/categories/${type}.json`,
+    category,
+    {
+      params: { auth: token },
+    }
+  );
   return {
     id: response.data.name,
     ...category,
   };
 };
 
-export const addTransactionApi = async transaction => {
+export const addTransactionApi = async ({ transaction, localId, token }) => {
   const { transType } = transaction;
   const response = await axios.post(
-    `transactions/${transType}.json`,
-    transaction
+    `users/${localId}/transactions/${transType}.json`,
+    transaction,
+    { params: { auth: token } }
   );
   return {
     id: response.data.name,
@@ -45,8 +58,10 @@ export const addTransactionApi = async transaction => {
   };
 };
 
-export const getTransactionsApi = async () => {
-  const response = await axios.get('transactions.json');
+export const getTransactionsApi = async ({ localId, token }) => {
+  const response = await axios.get(`users/${localId}/transactions.json`, {
+    params: { auth: token },
+  });
   if (response.data === null) return { incomes: [], costs: [] };
 
   const incomes = transformDataObj(response.data.incomes);
@@ -57,4 +72,54 @@ export const getTransactionsApi = async () => {
     incomes,
     costs,
   };
+};
+
+export const removeTransactionApi = async ({
+  localId,
+  transType,
+  id,
+  token,
+}) => {
+  await axios.delete(`users/${localId}/transactions/${transType}/${id}.json`, {
+    params: { auth: token },
+  });
+  return id;
+};
+
+export const editTransactionApi = async ({
+  localId,
+  transType,
+  token,
+  newData,
+}) => {
+  await axios.patch(
+    `users/${localId}/transactions/${transType}/${newData.id}.json`,
+    newData,
+    {
+      params: { auth: token },
+    }
+  );
+  return newData;
+};
+
+export const loginUserApi = async obj => {
+  const { data } = await axios.post(
+    `${BASE_URL}/accounts:signInWithPassword?key=${API_KEY}`,
+    {
+      ...obj,
+      returnSecureToken: true,
+    }
+  );
+  return data;
+};
+
+export const registerUserApi = async obj => {
+  const { data } = await axios.post(
+    `${BASE_URL}/accounts:signUp?key=${API_KEY}`,
+    {
+      ...obj,
+      returnSecureToken: true,
+    }
+  );
+  return data;
 };
