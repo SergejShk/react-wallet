@@ -1,4 +1,3 @@
-import { getValue } from '@testing-library/user-event/dist/utils';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://wallet-3dac9-default-rtdb.firebaseio.com/';
@@ -12,8 +11,6 @@ const transformDataObj = categories =>
         ...data,
       }))
     : [];
-
-// url "BASE_URL/users/{localId}/categories.json?auth={token}"
 
 export const getCategoriesApi = async ({ localId, token }) => {
   const response = await axios.get(`users/${localId}/categories.json`, {
