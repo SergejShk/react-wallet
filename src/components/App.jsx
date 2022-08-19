@@ -8,7 +8,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { getToken } from 'redux/auth/authSelector';
 import { getIncomesCategories } from 'redux/categories/categoriesOperations';
 
-const MainPage = lazy(() => import('./MainPage/MainPage'));
+const MainPage = lazy(() => import('./mainPage/MainPage'));
 const TransactionHistoryPage = lazy(() =>
   import('./TransactionHistoryPage/TransactionHistoryPage')
 );
