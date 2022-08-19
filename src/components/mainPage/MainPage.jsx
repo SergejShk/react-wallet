@@ -1,31 +1,40 @@
-import CategoriesList from 'components/categoriesList/CategoriesList';
-import TransactionForm from 'components/transactionForm/TransactionForm';
-import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useMatch } from 'react-router-dom';
+import Header from '../Header/Header';
+import TransactionFormWithCategories from 'components/TransactionFormWithCategories/TransactionFormWithCategories';
+import {
+  addCostsThunk,
+  addIncomesThunk,
+} from 'redux/transactions/transactionsOperations';
 
 const MainPage = () => {
-  const isOpenCategoriesList = false;
+  const dispatch = useDispatch();
+
+  const { params } = useMatch('/*');
+  const navigate = useNavigate();
+
+  const handleToggleCategoriesList = () => {
+    params['*'] === '' && navigate('category');
+    params['*'] === 'category' && navigate('');
+  };
+
+  const addTransaction = form => {
+    form.transType === 'costs' && dispatch(addCostsThunk(form));
+    form.transType === 'incomes' && dispatch(addIncomesThunk(form));
+  };
+
   return (
-    <>
-      <header>
-        <button type="button">
-          {isOpenCategoriesList ? '<-- Go back' : 'Burger'}
-        </button>
-        <h1 className="title-page">
-          {isOpenCategoriesList ? ' Категорії ' : 'Журнал витрат'}
-        </h1>
-      </header>
-      <main>
-        {isOpenCategoriesList ? (
-          <CategoriesList />
-        ) : (
-          <>
-            <TransactionForm />
-            <button className="costs">Всі витрати</button>
-            <button className="incomes">Всі прибутки</button>
-          </>
-        )}
-      </main>
-    </>
+    <div className="container">
+      <Header
+        title={params['*'] === 'category' ? ' Категорії ' : 'Журнал витрат'}
+        icon={params['*'] === 'category' ? '#icon-arrow-left' : null}
+        cbOnClick={handleToggleCategoriesList}
+      />
+      <TransactionFormWithCategories
+        cbOnSubmit={addTransaction}
+        params={params}
+      />
+    </div>
   );
 };
 
