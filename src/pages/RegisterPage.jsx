@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import AuthForm from '../components/AuthForm/AuthForm';
 import AuthGoToBtn from '../components/AuthGoToBtn/AuthGoToBtn';
 import Header from '../components/Header/Header';

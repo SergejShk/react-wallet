@@ -17,7 +17,7 @@ export const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getIncomesCategories());
-  }, []);
+  }, [dispatch]);
 
   const isToken = useSelector(getToken);
 
