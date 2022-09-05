@@ -26,7 +26,10 @@ export const App = () => {
       {isToken ? (
         <Routes>
           <Route path="/*" element={<MainPage />} />
-          <Route path="/history/:transType" element={<TransactionHistoryPage />} />
+          <Route
+            path="/history/:transType"
+            element={<TransactionHistoryPage />}
+          />
           <Route path="/edit/:transType/:id/*" element={<EditPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

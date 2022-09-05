@@ -17,8 +17,12 @@ function TransactionForm({
   };
   return (
     <form className={s.form} onSubmit={submitForm}>
-      <button type="submit">Відправити</button>
-      <select name="transType" value={transType} onChange={handleChange}>
+      <select
+        className={s.select}
+        name="transType"
+        value={transType}
+        onChange={handleChange}
+      >
         <option value="costs">Витрати</option>
         <option value="incomes">Прибуток</option>
       </select>
@@ -85,6 +89,9 @@ function TransactionForm({
           placeholder="Коментар"
         />
       </label>
+      <button className={s.btn} type="submit">
+        Відправити
+      </button>
     </form>
   );
 }

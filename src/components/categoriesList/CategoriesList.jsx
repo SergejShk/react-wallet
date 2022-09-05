@@ -26,7 +26,7 @@ const CategoriesList = ({ transType, setCategories }) => {
 
   return (
     <>
-      <main>
+      <main className={s.container}>
         <ul className={s.list}>
           {categories.map(({ title, id }) => (
             <li key={id} className={s.item}>

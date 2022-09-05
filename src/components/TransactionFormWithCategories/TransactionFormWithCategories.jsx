@@ -3,7 +3,14 @@ import { useSelector } from 'react-redux';
 import CategoriesList from 'components/categoriesList/CategoriesList';
 import TransactionForm from 'components/transactionForm/TransactionForm';
 import { Suspense, useEffect, useState } from 'react';
-import { Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import s from './TransactionFormWithCategories.module.css';
 
 const normalizedTime = moment().format('HH:mm');
@@ -27,7 +34,7 @@ const TransactionFormWithCategories = ({ params, transaction, cbOnSubmit }) => {
   const [form, setForm] = useState(transaction ?? initialForm);
 
   useEffect(() => {
-    const title = categories[form.transType][0]?.title || 'Choise category';
+    const title = categories[form.transType][0]?.title || 'Оберіть категорію';
     setForm(prev => ({ ...prev, category: title }));
   }, [categories, form.transType]);
 
@@ -57,7 +64,12 @@ const TransactionFormWithCategories = ({ params, transaction, cbOnSubmit }) => {
         <Routes>
           <Route
             path="category"
-            element={<CategoriesList setCategories={setCategories} transType={form.transType} />}
+            element={
+              <CategoriesList
+                setCategories={setCategories}
+                transType={form.transType}
+              />
+            }
           />
           <Route path="*" element={<Navigate to="/" />} />
           <Route
